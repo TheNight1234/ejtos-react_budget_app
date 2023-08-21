@@ -2,10 +2,11 @@
 import React, { useContext } from 'react';
 import { TiDelete } from 'react-icons/ti';
 import { AppContext } from '../context/AppContext';
-
+import "./MyCss.css"
 const ExpenseItem = (props) => {
-    const { dispatch } = useContext(AppContext);
+    const { currency,dispatch } = useContext(AppContext);
 
+    
     const handleDeleteExpense = () => {
         dispatch({
             type: 'DELETE_EXPENSE',
@@ -25,12 +26,24 @@ const ExpenseItem = (props) => {
         });
 
     }
+    const decreaseAllocation = (name) => {
+        const expense = {
+            name: name,
+            cost: 10,
+        };
 
+        dispatch({
+            type: 'RED_EXPENSE',
+            payload: expense
+        });
+
+    }
     return (
         <tr>
         <td>{props.name}</td>
-        <td>£{props.cost}</td>
-        <td><button onClick={event=> increaseAllocation(props.name)}>+</button></td>
+        <td>{currency}{props.cost}</td>
+        <td><button style={{backgroundColor:"#3CFF33"}}class="expensebutton" onClick={event=> increaseAllocation(props.name)}><span>+</span></button></td>
+        <td><button style={{backgroundColor:"red"}}class="expensebutton" onClick={event=> decreaseAllocation(props.name)}><span>-</span></button></td>
         <td><TiDelete size='1.5em' onClick={handleDeleteExpense}></TiDelete></td>
         </tr>
     );
